@@ -4,13 +4,17 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.tailwindcss.com"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
         <title>Song Card</title>
     </head>
-    <body class="flex flex-col items-center gap-40 bg-neutral-900">
-        <h1 class="text-xl font-bold text-white">Song Card</h1>
+    <body class="flex flex-col items-center bg-neutral-900">
+        <h1 class="mt-1 mb-16 text-xl font-bold text-white">Song Card</h1>
 
         <!-- Card -->
-        <div class="flex flex-col border border-gray-300 rounded-lg">
+        <div
+            id="card"
+            class="min-w-[260px] bg-neutral-900 flex flex-col border border-gray-300 rounded-lg">
             <div class="p-2">
                 <div class="bg-[#1c1c1c] rounded-lg flex items-center mb-2">
                     <img
@@ -80,8 +84,13 @@
                 </div>
             </div>
         </div>
+        <button
+            id="saveImage"
+            class="mt-8 border border-green-500 hover:border-white flex h-9 px-2 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold items-center justify-center">
+            Salvar como PNG
+        </button>
 
-        <div class="-mt-8 flex flex-col gap-2 max-w-[400px] w-[80%]">
+        <div class="mt-12 flex flex-col gap-2 max-w-[400px] w-[80%]">
             <input
                 type="text"
                 class="peer py-3 pe-0 block w-full bg-transparent border-t-transparent border-b-2 border-x-transparent border-b-neutral-700 text-sm focus:border-t-transparent focus:border-x-transparent focus:border-b-neutral-500 focus:ring-0 focus:outline-none disabled:opacity-50 disabled:pointer-events-none text-neutral-400 placeholder-neutral-500"
@@ -95,13 +104,13 @@
                 type="text"
                 name="compositor" />
 
-            <label class="mt-2">
+            <div class="mt-2">
                 <input type="file" hidden />
                 <div
                     class="border border-green-500 hover:border-white flex w-full h-9 px-2 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                     Foto do compositor
                 </div>
-            </label>
+            </div>
         </div>
     </body>
     <script>
@@ -139,5 +148,20 @@
 
                 reader.readAsDataURL(file);
             });
+
+        document.getElementById("saveImage").addEventListener("click", () => {
+            const card = document.querySelector("#card"); // O elemento que será capturado
+            domtoimage
+                .toPng(card)
+                .then((dataUrl) => {
+                    const link = document.createElement("a");
+                    link.download = "song_card.png";
+                    link.href = dataUrl;
+                    link.click();
+                })
+                .catch((error) => {
+                    console.error("Erro ao gerar a imagem:", error);
+                });
+        });
     </script>
 </html>
