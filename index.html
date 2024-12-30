@@ -4,7 +4,6 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.tailwindcss.com"></script>
-        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
         <title>Song Card</title>
     </head>
@@ -86,7 +85,7 @@
         </div>
         <button
             id="saveImage"
-            class="mt-8 border border-green-500 hover:border-white flex h-9 px-2 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold items-center justify-center">
+            class="select-none mt-8 border border-green-500 hover:border-white flex h-9 px-4 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold items-center justify-center">
             Salvar como PNG
         </button>
 
@@ -105,9 +104,10 @@
                 name="compositor" />
 
             <div class="mt-2">
-                <input type="file" hidden />
+                <input id="file-input" type="file" accept="image/*" hidden />
                 <div
-                    class="border border-green-500 hover:border-white flex w-full h-9 px-2 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
+                    onclick="document.getElementById('file-input').click();"
+                    class="select-none border border-green-500 hover:border-white flex w-full h-9 px-2 flex-col bg-green-500 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                     Foto do compositor
                 </div>
             </div>
@@ -137,7 +137,7 @@
         });
 
         document
-            .querySelector("input[type='file']")
+            .getElementById("file-input")
             .addEventListener("change", (e) => {
                 const file = e.target.files[0];
                 const reader = new FileReader();
